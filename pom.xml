@@ -82,13 +82,17 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.2.0</version>
         </dependency>
-
         <dependency>
-                <groupId>org.crazycake</groupId>
-                <artifactId>shiro-redis-spring-boot-starter</artifactId>
-                <version>3.2.1</version>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis-spring-boot-starter</artifactId>
+            <version>3.2.1</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--                <groupId>org.crazycake</groupId>-->
+<!--                <artifactId>shiro-redis-spring-boot-starter</artifactId>-->
+<!--                <version>3.2.1</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 <!--    <build>-->
