@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,16 +35,31 @@ public class RoleController {
 
 
     @Autowired
-    RoleService permissionService;
-
+    RoleService  roleService;
+    @Autowired
+    RolePermissionService rolePermissionService;
+    @Autowired
+    PermissionService permissionService;
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 
         Page page =  new Page(currentPage, size);
-        IPage pageData = permissionService.page(page, new QueryWrapper<Role>().orderByDesc("id"));
-        List records = pageData.getRecords();
-        for(Object id:records){
-            System.out.println(id);
+        IPage pageData = roleService.page(page, new QueryWrapper<Role>().orderByDesc("id"));
+        List<Role> records = pageData.getRecords();
+        for(Role item:records){
+            //获取角色id，在关联表查询
+            System.out.println(item.getId());
+
+            List<RolePermission> rolePermissionList = rolePermissionService.list(new QueryWrapper<RolePermission>().orderByDesc("roleId").eq("roleId", item.getId()).select());
+            for(RolePermission row:rolePermissionList){
+                System.out.println("permissionId:"+row.getPermissionId());
+
+                //通过id查询出资源列表
+                List<Permission> prmissionList = permissionService.list(new QueryWrapper<Permission>().orderByDesc("id").eq("id", row.getPermissionId()).select());
+                System.out.println(prmissionList);
+//                item.setPermissionList(prmissionList);
+            }
+
         }
 
 
@@ -56,7 +72,7 @@ public class RoleController {
         Role temp = null;
         System.out.println("permission.getId()==="+permission.getId());
         if(permission.getId() != null) {
-            temp = permissionService.getById(permission.getId());
+            temp = roleService.getById(permission.getId());
             System.out.println(ShiroUtil.getProfile().getId());
 //            Assert.isTrue(temp.getId().longValue() == ShiroUtil.getProfile().getId().longValue(), "没有权限编辑");
 
@@ -67,7 +83,7 @@ public class RoleController {
         }
 
         BeanUtil.copyProperties(permission, temp, "id");
-        permissionService.saveOrUpdate(temp);
+        roleService.saveOrUpdate(temp);
 
         return Result.succ(null);
     }
@@ -79,7 +95,7 @@ public class RoleController {
 
         System.out.println(ids);
         for (Integer id:ids){
-            permissionService.removeById(id);
+            roleService.removeById(id);
         }
 
         return Result.succ(null);

@@ -53,7 +53,7 @@ public class JwtFilter extends AuthenticatingFilter {
         } else{
             //校验jwt
 
-            System.out.println("jwt="+jwt);
+//            System.out.println("jwt="+jwt);
 
             Claims claim = jwtUtils.getClaimByToken(jwt);
             if(claim==null||jwtUtils.isTokenExpired(claim.getExpiration())){

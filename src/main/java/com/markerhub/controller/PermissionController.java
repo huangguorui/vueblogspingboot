@@ -97,13 +97,13 @@ public class PermissionController {
 
     @RequiresAuthentication
     @PostMapping("/addRoleAndPermission")
-    public Result addRoleAndPermission(@Validated @RequestBody Integer[] ids) {
-        Integer permissionId = ids[ids.length-1];
+    public Result addRoleAndPermission(@Validated @RequestBody Integer[] permissionIds) {
+        Integer roleId = permissionIds[permissionIds.length-1];
         Integer i=0;
         RolePermission temp = new RolePermission();
-        for (Integer roleId:ids){
+        for (Integer permissionId:permissionIds){
                        i++;
-           if(i!=ids.length) {
+           if(i!=permissionIds.length) {
                temp.setPermissionId(permissionId);
                temp.setRoleId(roleId);
                rolePermissionService.save(temp);
