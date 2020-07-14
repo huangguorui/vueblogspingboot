@@ -59,9 +59,9 @@ public class JwtFilter extends AuthenticatingFilter {
             if(claim==null||jwtUtils.isTokenExpired(claim.getExpiration())){
                 throw new ExpiredCredentialsException("token失效，请重新登录");
             }
-            System.out.println("执行了登录");
-            System.out.println("servletRequest==="+servletRequest);
-            System.out.println("servletResponse==="+servletResponse);
+//            System.out.println("执行了登录");
+//            System.out.println("servletRequest==="+servletRequest);
+//            System.out.println("servletResponse==="+servletResponse);
             System.out.println("executeLogin(servletRequest,servletResponse)"+executeLogin(servletRequest,servletResponse));
             //执行登录
             return executeLogin(servletRequest,servletResponse);
