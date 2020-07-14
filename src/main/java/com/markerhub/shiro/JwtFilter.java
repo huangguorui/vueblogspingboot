@@ -62,7 +62,8 @@ public class JwtFilter extends AuthenticatingFilter {
 //            System.out.println("执行了登录");
 //            System.out.println("servletRequest==="+servletRequest);
 //            System.out.println("servletResponse==="+servletResponse);
-            System.out.println("executeLogin(servletRequest,servletResponse)"+executeLogin(servletRequest,servletResponse));
+            //屏蔽掉调试jwt语句
+//            System.out.println("executeLogin(servletRequest,servletResponse)"+executeLogin(servletRequest,servletResponse));
             //执行登录
             return executeLogin(servletRequest,servletResponse);
         }

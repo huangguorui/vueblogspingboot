@@ -35,7 +35,6 @@ public class RolePermissionController {
 
         Page page =  new Page(currentPage, size);
         IPage pageData = permissionService.page(page, new QueryWrapper<RolePermission>().orderByDesc("id"));
-
         return Result.succ(pageData);
     }
     @RequiresAuthentication

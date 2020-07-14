@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  *  前端控制器
@@ -35,10 +37,15 @@ public class RoleController {
     RoleService permissionService;
 
     @GetMapping("/list")
-    public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size, String permissionName) {
+    public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 
         Page page =  new Page(currentPage, size);
         IPage pageData = permissionService.page(page, new QueryWrapper<Role>().orderByDesc("id"));
+        List records = pageData.getRecords();
+        for(Object id:records){
+            System.out.println(id);
+        }
+
 
         return Result.succ(pageData);
     }
