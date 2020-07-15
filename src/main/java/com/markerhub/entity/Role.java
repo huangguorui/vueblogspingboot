@@ -36,4 +36,5 @@ public class Role implements Serializable {
     @TableField("roleDesc")
     private String roleDesc;
 
+//    public List<Permission> permissions;
 }
