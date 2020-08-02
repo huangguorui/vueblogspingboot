@@ -7,14 +7,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.markerhub.common.lang.Result;
-import com.markerhub.entity.Blog;
-import com.markerhub.entity.Permission;
-import com.markerhub.entity.Role;
-import com.markerhub.entity.RolePermission;
+import com.markerhub.entity.*;
 import com.markerhub.handleData.roleData;
 import com.markerhub.service.PermissionService;
 import com.markerhub.service.RolePermissionService;
 import com.markerhub.service.RoleService;
+import com.markerhub.service.UserRoleService;
 import com.markerhub.shiro.ShiroUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +41,8 @@ public class RoleController {
     RolePermissionService rolePermissionService;
     @Autowired
     PermissionService permissionService;
-
+    @Autowired
+    UserRoleService userRoleService;
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 
@@ -76,30 +75,6 @@ public class RoleController {
         pageData.setRecords(result);
 
         return Result.succ(pageData);
-
-
-//        List<Role> records = pageData.getRecords();
-//        for(Role item:records){
-//            //获取角色id，在关联表查询
-//            System.out.println(item.getId());
-//
-//            List<RolePermission> rolePermissionList = rolePermissionService.list(new QueryWrapper<RolePermission>().orderByDesc("roleId").eq("roleId", item.getId()).select());
-//            for(RolePermission row:rolePermissionList){
-//                System.out.println("permissionId:"+row.getPermissionId());
-//
-//                //通过id查询出资源列表
-//                List<Permission> prmissionList = permissionService.list(new QueryWrapper<Permission>().orderByDesc("id").eq("id", row.getPermissionId()).select());
-////                Role role = new Role();
-////                role.setPermissions(prmissionList);
-//
-//
-//                System.out.println(prmissionList);
-////                item.setPermissionList(prmissionList);
-//            }
-//
-//        }
-
-
     }
 
     @RequiresAuthentication
@@ -125,7 +100,23 @@ public class RoleController {
         return Result.succ(null);
     }
 
+    @RequiresAuthentication
+    @PostMapping("/addUserAndRole")
+    public Result addUserAndRole(@Validated @RequestBody Integer[] roleIds) {
+        Integer userId = roleIds[roleIds.length - 1];
+        Integer i = 0;
+        UserRole temp = new UserRole();
+        for (Integer roleId : roleIds) {
+            i++;
+            if (i != roleIds.length) {
+                temp.setUserId(userId);
+                temp.setRoleId(roleId);
+                userRoleService.save(temp);
+            }
+        }
+        return Result.succ(null);
 
+    }
     @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
