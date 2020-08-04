@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -97,35 +98,16 @@ public class PermissionController {
 
     @RequiresAuthentication
     @PostMapping("/addRoleAndPermission")
-    public Result addRoleAndPermission(@Validated @RequestBody Integer[] permissionIds) {
-        Integer roleId = permissionIds[permissionIds.length-1];
-        Integer i=0;
+    public Result addRoleAndPermission(@Validated @RequestBody Map<String, int[]> request) {
+        int[] roleId= request.get("roleId");
+        int[] permissionIds =  request.get("permissionIds");
+
         RolePermission temp = new RolePermission();
         for (Integer permissionId:permissionIds){
-                       i++;
-           if(i!=permissionIds.length) {
                temp.setPermissionId(permissionId);
-               temp.setRoleId(roleId);
+               temp.setRoleId(roleId[0]);
                rolePermissionService.save(temp);
-           }
         }
-//        for (Integer roleId:ids){
-//
-//            System.out.println("roleId=====");
-//            System.out.println(roleId);
-//
-//            i++;
-//            if(i!=ids.length){
-//
-//           temp.setPermissionId(permissionId);
-//           temp.setRoleId(roleId);
-//             rolePermissionService.saveOrUpdate(temp);
-//            }
-//            return Result.succ(null);
-//        }
-//        System.out.println("----------------");
-//        System.out.println(permissionId);
-
         return Result.succ(null);
     }
 
