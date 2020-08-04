@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ import java.util.List;
  * @since 2020-07-14
  */
 @RestController
+//@RequiresAuthentication
 @RequestMapping("/role")
 public class RoleController {
 
@@ -102,22 +104,30 @@ public class RoleController {
 
     @RequiresAuthentication
     @PostMapping("/addUserAndRole")
-    public Result addUserAndRole(@Validated @RequestBody Integer[] roleIds) {
-        Integer userId = roleIds[roleIds.length - 1];
-        Integer i = 0;
+    public Result addUserAndRole(@Validated @RequestBody Map<String, int[]> request) {
+        System.out.println(request);
+       int[] userId= request.get("userId");
+
+        int[] roleIds =  request.get("roleIds");
+        for (Integer roleId : roleIds) {
+            System.out.println(roleId);
+        }
+
         UserRole temp = new UserRole();
         for (Integer roleId : roleIds) {
-            i++;
-            if (i != roleIds.length) {
-                temp.setUserId(userId);
+                temp.setUserId(userId[0]); //获取传入的用户ID
                 temp.setRoleId(roleId);
                 userRoleService.save(temp);
-            }
         }
         return Result.succ(null);
 
     }
-    @RequiresAuthentication
+    @PostMapping("/h")
+    public Result h() {
+
+        return Result.fail(401,"权限不足",null);
+    }
+//    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 
@@ -128,6 +138,7 @@ public class RoleController {
 
         return Result.succ(null);
     }
+
 
 
 }
