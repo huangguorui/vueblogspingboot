@@ -49,8 +49,11 @@ public class BlogController {
     @Autowired
     BlogService blogService;
 
+
+
+
     @GetMapping("/blogs")
-    public Result list(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer size) {
+    public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer size) {
 
         Page page =  new Page(currentPage, size);
         IPage pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
@@ -68,7 +71,7 @@ public class BlogController {
     @RequiresAuthentication
     @PostMapping("/blog/edit")
 
-    @RequiresPermissions(value={"blog+edit"})
+//    @RequiresPermissions(value={"blog+edit"})
 //    /blog/edit
 //
 //    /blog/edit  blog+edit

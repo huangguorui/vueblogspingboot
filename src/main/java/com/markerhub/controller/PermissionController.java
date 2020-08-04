@@ -96,12 +96,13 @@ public class PermissionController {
     }
 
 
-    @RequiresAuthentication
+//    @RequiresAuthentication
     @PostMapping("/addRoleAndPermission")
     public Result addRoleAndPermission(@Validated @RequestBody Map<String, int[]> request) {
         int[] roleId= request.get("roleId");
         int[] permissionIds =  request.get("permissionIds");
-
+        System.out.println(roleId[0]);
+        System.out.println(permissionIds);
         RolePermission temp = new RolePermission();
         for (Integer permissionId:permissionIds){
                temp.setPermissionId(permissionId);

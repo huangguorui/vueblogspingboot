@@ -108,10 +108,10 @@ public class RoleController {
         System.out.println(request);
        int[] userId= request.get("userId");
 
-        int[] roleIds =  request.get("roleIds");
-        for (Integer roleId : roleIds) {
-            System.out.println(roleId);
-        }
+       int[] roleIds =  request.get("roleIds");
+//        for (Integer roleId : roleIds) {
+//            System.out.println(roleId);
+//        }
 
         UserRole temp = new UserRole();
         for (Integer roleId : roleIds) {

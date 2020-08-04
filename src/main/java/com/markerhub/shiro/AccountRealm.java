@@ -42,6 +42,12 @@ public class AccountRealm extends AuthorizingRealm {
         //获取当前登录的对象
         Subject subject = SecurityUtils.getSubject();
         AccountProfile accountProfile = (AccountProfile) subject.getPrincipal();
+        System.out.println(accountProfile);
+//
+//        User user = userService.getById(accountProfile.getId());
+//        System.out.println("user");
+//        System.out.println(user);
+
 //        List<RoleResourceModule> roleResourceModules=serviceRRM.getUserResource(currentUser.getId());
         //accountProfile
 
@@ -49,9 +55,13 @@ public class AccountRealm extends AuthorizingRealm {
         //设置权限
 //        List<RoleResourceModule> roleResourceModules=serviceRRM.getUserResource(currentUser.getId());
        // for(RoleResourceModule item:roleResourceModules){
-           info.addStringPermission("permission+list");//设置用户权限
+//        info.addStringPermission("permission+list");//设置用户权限
+        info.addStringPermission("permission+save");
+        info.addStringPermission("permission+delete");
+        info.addStringPermission("permission+addRoleAndPermission");
       //  }
 //        LOGGER.info("用户[{}]获取了授权",currentUser.getUserName());
+        System.out.println("-------------------------");
         return info;
     }
 
