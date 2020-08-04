@@ -4,10 +4,13 @@ import cn.hutool.core.bean.BeanUtil;
 import com.markerhub.entity.User;
 import com.markerhub.service.UserService;
 import com.markerhub.util.JwtUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,9 +38,21 @@ public class AccountRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        //获取当前登录的对象
+        Subject subject = SecurityUtils.getSubject();
+        AccountProfile accountProfile = (AccountProfile) subject.getPrincipal();
+//        List<RoleResourceModule> roleResourceModules=serviceRRM.getUserResource(currentUser.getId());
+        //accountProfile
 
-
-        return null;
+//        User currentUser = (User) subject.getSession().getAttribute(Constant.USER_PRIMARY);
+        //设置权限
+//        List<RoleResourceModule> roleResourceModules=serviceRRM.getUserResource(currentUser.getId());
+       // for(RoleResourceModule item:roleResourceModules){
+           info.addStringPermission("permission+list");//设置用户权限
+      //  }
+//        LOGGER.info("用户[{}]获取了授权",currentUser.getUserName());
+        return info;
     }
 
     @Override

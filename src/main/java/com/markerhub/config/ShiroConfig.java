@@ -53,7 +53,12 @@ public class ShiroConfig {
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         Map<String, String> filterMap = new LinkedHashMap<>();
+
+
+        filterMap.put("/permission/list", "perms[permission+list]");
+//        拦截了所有的
         filterMap.put("/**", "jwt"); // 主要通过注解方式校验权限
+
         chainDefinition.addPathDefinitions(filterMap);
         return chainDefinition;
     }
@@ -61,6 +66,8 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager,
                                                          ShiroFilterChainDefinition shiroFilterChainDefinition) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
+
+        shiroFilter.setUnauthorizedUrl("/role/h");
         shiroFilter.setSecurityManager(securityManager);
 
         Map<String, Filter> filters = new HashMap<>();
