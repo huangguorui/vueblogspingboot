@@ -23,7 +23,9 @@ import com.markerhub.entity.Blog;
 import com.markerhub.service.BlogService;
 //import com.markerhub.util.ShiroUtil;
 import com.markerhub.shiro.ShiroUtil;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
@@ -65,6 +67,13 @@ public class BlogController {
 
     @RequiresAuthentication
     @PostMapping("/blog/edit")
+
+    @RequiresPermissions(value={"blog+edit"})
+//    /blog/edit
+//
+//    /blog/edit  blog+edit
+    //@RequiresPermissions(value={"user:a", "user:b"}, logical= Logical.AND)
+
     public Result edit(@Validated @RequestBody Blog blog) {
 
         Blog temp = null;
