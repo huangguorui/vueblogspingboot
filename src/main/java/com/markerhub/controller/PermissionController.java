@@ -48,7 +48,8 @@ public class PermissionController {
        Page page =  new Page(currentPage, size);
         IPage pageData=null;
         if(permissionName!=null){
-             pageData = permissionService.page(page, new QueryWrapper<Permission>().orderByDesc("id").eq("permissionName",permissionName));
+            //eq精确匹配  like模糊匹配
+             pageData = permissionService.page(page, new QueryWrapper<Permission>().orderByDesc("id").like("permissionName",permissionName));
 
         }else{
              pageData = permissionService.page(page, new QueryWrapper<Permission>().orderByDesc("id"));

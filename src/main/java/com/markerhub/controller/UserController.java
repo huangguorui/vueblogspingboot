@@ -88,4 +88,14 @@ public class UserController {
 
     }
 
+    @PostMapping("/delete")
+    public Result delete(@Validated @RequestBody Integer[] ids) {
+
+        for (Integer id:ids){
+            userService.removeById(id);
+        }
+
+        return Result.succ(null);
+    }
+
 }
