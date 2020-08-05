@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.markerhub.common.lang.Result;
 import com.markerhub.entity.Blog;
+import com.markerhub.entity.Role;
 import com.markerhub.service.BlogService;
 //import com.markerhub.util.ShiroUtil;
 import com.markerhub.shiro.ShiroUtil;
@@ -32,6 +33,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 //研发权限控制系统
 /**
@@ -44,6 +46,7 @@ import java.time.LocalDateTime;
  */
 @ResponseBody
 @RestController
+@RequestMapping("/article")
 public class BlogController {
 
     @Autowired
@@ -52,16 +55,21 @@ public class BlogController {
 
 
 
-    @GetMapping("/blogs")
+    @GetMapping("/list")
     public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer size) {
 
         Page page =  new Page(currentPage, size);
         IPage pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
+//          List recordsList=  pageData.getRecords();
+//        for (Object records : recordsList) {
+//            records.
+//        }
+//         pageData.setRecords()
 
         return Result.succ(pageData);
     }
 
-    @GetMapping("/blog/{id}")
+    @GetMapping("/{id}")
     public Result detail(@PathVariable(name = "id") Long id){
         Blog blog = blogService.getById(id);
         Assert.notNull(blog,"该博客已被删除");
@@ -69,7 +77,7 @@ public class BlogController {
     }
 
     @RequiresAuthentication
-    @PostMapping("/blog/edit")
+    @PostMapping("/save")
 
 //    @RequiresPermissions(value={"blog+edit"})
 //    /blog/edit
@@ -91,7 +99,7 @@ public class BlogController {
             temp = new Blog();
             temp.setUserId(ShiroUtil.getProfile().getId());
             temp.setCreated(LocalDateTime.now());
-            temp.setStatus(0);
+            temp.setStatus(1);
         }
 
         BeanUtil.copyProperties(blog, temp, "id", "userId", "created", "status");
@@ -99,4 +107,16 @@ public class BlogController {
 
         return Result.succ(null);
     }
+
+    @PostMapping("/delete")
+    public Result delete(@Validated @RequestBody Integer[] ids) {
+
+        System.out.println(ids);
+        for (Integer id:ids){
+            blogService.removeById(id);
+        }
+
+        return Result.succ(null);
+    }
+
 }

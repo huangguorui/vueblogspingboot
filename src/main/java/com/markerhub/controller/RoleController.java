@@ -79,7 +79,7 @@ public class RoleController {
         return Result.succ(pageData);
     }
 
-    @RequiresAuthentication
+//    @RequiresAuthentication
     @PostMapping("/save")
     public Result edit(@Validated @RequestBody Role permission) {
 

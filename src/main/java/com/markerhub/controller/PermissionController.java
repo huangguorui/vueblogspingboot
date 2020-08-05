@@ -33,6 +33,7 @@ import java.util.Map;
  */
 
 @RestController
+@RequiresAuthentication
 @RequestMapping("/permission")
 public class PermissionController {
 
@@ -56,7 +57,6 @@ public class PermissionController {
 
         return Result.succ(pageData);
     }
-    @RequiresAuthentication
     @PostMapping("/save")
     public Result edit(@Validated @RequestBody Permission permission) {
 
@@ -71,9 +71,7 @@ public class PermissionController {
         } else {
 
             temp = new Permission();
-//            temp.setUserId(ShiroUtil.getProfile().getId());
-//            temp.setCreated(LocalDateTime.now());
-//            temp.setStatus(0);
+
         }
 
         BeanUtil.copyProperties(permission, temp, "id");
@@ -83,7 +81,6 @@ public class PermissionController {
     }
 
 
-    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 

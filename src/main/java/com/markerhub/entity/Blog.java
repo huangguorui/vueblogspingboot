@@ -42,6 +42,15 @@ public class Blog implements Serializable {
     private LocalDateTime created;
 
     private Integer status;
+    @NotBlank(message = "技术标签不能为空")
+
+    private String tags;
+    @NotBlank(message = "页数不能为空")
+
+    private String pages;
+    @NotBlank(message = "价格不能为空")
+
+    private String price;
 
 
 }
