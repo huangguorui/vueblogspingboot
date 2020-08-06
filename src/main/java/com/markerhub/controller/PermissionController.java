@@ -46,6 +46,7 @@ public class PermissionController {
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size,String permissionName) {
 
        Page page =  new Page(currentPage, size);
+        System.out.println(permissionName);
         IPage pageData=null;
         if(permissionName!=null){
             //eq精确匹配  like模糊匹配
