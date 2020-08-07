@@ -114,6 +114,7 @@ public class BlogController {
             imgData add = new imgData();
             add.setImgName(originalFilename);
             add.setImgUrl(getUrl()+"/uploads/"+originalFilename);
+            add.setImgText("/uploads/"+originalFilename);
             System.out.println("setImgUrl="+add.getImgUrl());
             System.out.println("database="+"/uploads/"+originalFilename);
 
@@ -149,11 +150,11 @@ public class BlogController {
 //
 //        temp.setIndexImg("indexImg");
 //        BeanUtil.copyProperties(blog, temp, "id", "userId", "created", "status");
-        Tags tags = new Tags();
 
-        tags.setTagName(imgPath);
-
-        tagsService.save(tags);
+        //测试
+//        Tags tags = new Tags();
+//        tags.setTagName(imgPath);
+//        tagsService.save(tags);
 
 //        blogService.saveOrUpdate(blog);
 
@@ -226,7 +227,7 @@ public class BlogController {
 //    /blog/edit  blog+edit
     //@RequiresPermissions(value={"user:a", "user:b"}, logical= Logical.AND)
 
-    public Result edit(@Validated @RequestBody Blog blog ) {
+    public Result edit(@Validated @RequestBody Blog blog) {
         Blog temp = null;
         if(blog.getId() != null) {
             temp = blogService.getById(blog.getId());

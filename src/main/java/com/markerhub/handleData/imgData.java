@@ -12,7 +12,9 @@ import java.util.UUID;
 public class imgData implements Serializable {
 
 
-        private String imgUrl;
+    private String imgUrl;
+    private String imgText;
 
-        private String imgName;
+    private String imgName;
+
     }
