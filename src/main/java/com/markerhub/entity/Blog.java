@@ -1,5 +1,6 @@
 package com.markerhub.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -40,6 +41,12 @@ public class Blog implements Serializable {
     private String content;
 
     private LocalDateTime created;
+
+
+    private String img;
+
+    @TableField("indexImg")
+    private String indexImg;
 
     private Integer status;
     @NotBlank(message = "技术标签不能为空")

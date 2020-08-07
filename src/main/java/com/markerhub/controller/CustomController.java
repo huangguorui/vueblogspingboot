@@ -12,6 +12,7 @@ import com.markerhub.entity.Tags;
 import com.markerhub.service.CustomService;
 import com.markerhub.service.TagsService;
 import com.markerhub.shiro.ShiroUtil;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class CustomController {
     @Autowired
     CustomService customService ;
 
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 

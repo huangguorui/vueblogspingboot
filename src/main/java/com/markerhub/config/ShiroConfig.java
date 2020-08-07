@@ -72,9 +72,15 @@ public class ShiroConfig {
         filterMap.put("/permission/save", "perms[permission+save]");
         filterMap.put("/permission/addRoleAndPermission", "perms[permission+addRoleAndPermission]");
         filterMap.put("/permission/delete", "perms[permission+delete]");
-//        拦截了所有的
-        filterMap.put("/**", "jwt"); // 主要通过注解方式校验权限
 
+
+      filterMap.put("/uploads/**", "anon");//img      //允许图片访问  springboot+shiro放开目录权限
+//       filterMap.put("/static/**", "anon");//img      //允许图片访问  springboot+shiro放开目录权限
+
+
+//        拦截了所有的
+
+        filterMap.put("/**", "jwt"); // 主要通过注解方式校验权限
         chainDefinition.addPathDefinitions(filterMap);
         return chainDefinition;
     }
@@ -82,7 +88,12 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager,
                                                          ShiroFilterChainDefinition shiroFilterChainDefinition) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
-
+//        shiroFilter.();
+        shiroFilter.setLoginUrl("/role/h");
+//        ShiroFilterFactoryBean shiroFilterFactoryBean  = new ShiroFilterFactoryBean();
+//        filterChainDefinitionMap.put("/img/**", "anon");//img
+//        filterChainDefinitionMap.put("/js/**", "anon");//js
+//        filterChainDefinitionMap.put("/css/**", "anon");//css
         shiroFilter.setUnauthorizedUrl("/role/h");
         shiroFilter.setSecurityManager(securityManager);
 
