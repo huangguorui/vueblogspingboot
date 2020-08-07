@@ -19,12 +19,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.markerhub.common.lang.Result;
-import com.markerhub.entity.Blog;
+import com.markerhub.entity.*;
+import com.markerhub.handleData.roleData;
 import com.markerhub.service.BlogService;
 //import com.markerhub.util.ShiroUtil;
+import com.markerhub.service.TagsService;
 import com.markerhub.shiro.ShiroUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.omg.CORBA.Environment;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
@@ -62,6 +65,9 @@ public class BlogController {
     @Autowired
     BlogService blogService;
 
+    @Autowired
+    TagsService tagsService;
+
 
     @RequestMapping("/pic")
     @ResponseBody
@@ -86,6 +92,7 @@ public class BlogController {
 
 //
 //
+        String imgPath="";
         for (int i = 0; i < file.length; i++) {
             //获取图片名称。容易重复
 //            String originalFilename = file[i].getOriginalFilename();
@@ -110,6 +117,14 @@ public class BlogController {
             System.out.println("setImgUrl="+add.getImgUrl());
             System.out.println("database="+"/uploads/"+originalFilename);
 
+            if(file.length-1==i){
+                imgPath=imgPath+"/uploads/"+originalFilename;
+
+            }else{
+                imgPath+="/uploads/"+originalFilename+",";
+            }
+
+
             fo.write( file[i].getBytes());
             target.write( file[i].getBytes());
             fo.close();
@@ -118,6 +133,31 @@ public class BlogController {
             System.out.println("inputStream="+inputStream);
             imgList.add(add);
         }
+
+        //写入项目列表中
+
+//        Blog  temp = new Blog();
+//        temp.setUserId(ShiroUtil.getProfile().getId());
+//        temp.setCreated(LocalDateTime.now());
+//        temp.setStatus(1);
+//        temp.setContent("测试测试");
+//        temp.setDescription("测试测试");
+//        temp.setPages("测试测试");
+//        temp.setPrice("测试测试");
+//        temp.setTags("测试测试");
+//        temp.setTitle("测试测试");
+//
+//        temp.setIndexImg("indexImg");
+//        BeanUtil.copyProperties(blog, temp, "id", "userId", "created", "status");
+        Tags tags = new Tags();
+
+        tags.setTagName(imgPath);
+
+        tagsService.save(tags);
+
+//        blogService.saveOrUpdate(blog);
+
+
         System.out.println(getUrl());
         return Result.succ(imgList);
 
@@ -148,6 +188,9 @@ public class BlogController {
         return "http://"+address.getHostAddress() +":"+this.serverPort;
     }
 
+
+    String[] imgList;
+
     @GetMapping("/list")
     public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer size,String title) {
 
@@ -162,11 +205,7 @@ public class BlogController {
 
         }
 
-//          List recordsList=  pageData.getRecords();
-//        for (Object records : recordsList) {
-//            records.
-//        }
-//         pageData.setRecords()
+// BeanUtils.copyProperties(blog,blogList); 对象复制，待议
 
         return Result.succ(pageData);
     }
@@ -187,8 +226,7 @@ public class BlogController {
 //    /blog/edit  blog+edit
     //@RequiresPermissions(value={"user:a", "user:b"}, logical= Logical.AND)
 
-    public Result edit(@Validated @RequestBody Blog blog) {
-
+    public Result edit(@Validated @RequestBody Blog blog ) {
         Blog temp = null;
         if(blog.getId() != null) {
             temp = blogService.getById(blog.getId());
