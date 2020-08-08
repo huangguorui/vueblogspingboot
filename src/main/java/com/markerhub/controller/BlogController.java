@@ -258,6 +258,7 @@ public class BlogController {
             add.setDescription(blog.getDescription());
 
             add.setImg(blog.getImg());
+            add.setUserId(blog.getUserId());
 //            add.setImgArr(blog.getImg());
 
             add.setPages(blog.getPages());
@@ -302,6 +303,7 @@ public class BlogController {
         add.setId(blog.getId());
 
         add.setTitle(blog.getTitle());
+        add.setThemeId(blog.getThemeId());
         add.setCreated(blog.getCreated());
 
         add.setDescription(blog.getDescription());

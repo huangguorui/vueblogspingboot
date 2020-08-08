@@ -17,6 +17,7 @@ import java.util.UUID;
 public class blogData implements Serializable {
 
     private Long id;
+    private Long userId;
 
     private String title;
     private String description;
