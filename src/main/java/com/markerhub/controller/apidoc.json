@@ -1,0 +1,8 @@
+{
+  "name": "测试api文档",
+  "version": "0.1.0",
+  "description": "关于前台接口所有的api接口都在这里，欢迎查阅，线上ip：http://49.234.91.147:8081，线下locahost:8081",
+  "title": "APIDOC 测试api文档",
+  "url": "https://49.234.91.147:8081",
+  "sampleUrl": "http://49.234.91.147:8081"
+}

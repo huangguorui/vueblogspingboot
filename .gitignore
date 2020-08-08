@@ -1,3 +1,4 @@
 target/
 *.jpg
 src/main/resources/static/uploads/
+api/

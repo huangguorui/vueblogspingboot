@@ -69,6 +69,22 @@ public class BlogController {
     TagsService tagsService;
 
 
+
+    /**
+     * @api {post} /article/pic/:title
+     * @apiDescription  图片上传
+     * @apiName list
+     * @apiParam {file} file 图片
+
+     * @apiParamExample {json} Request-Example:
+     * {
+     *     "file":"",
+     * }
+     * @apiGroup articleGroup
+     * @apiError userNotFound  The <code>id</code>
+     * @apiSampleRequest /article/pic
+     */
+
     @RequestMapping("/pic")
     @ResponseBody
     public Result uplodFile(@RequestParam("file") MultipartFile[] file) throws Exception {
@@ -191,6 +207,25 @@ public class BlogController {
 
 
     String[] imgList;
+
+
+    /**
+     * @api {get} /article/list/:title
+     * @apiDescription  获取文章列表
+     * @apiName list
+     * @apiParam {currentPage} currentPage 当前页
+     * @apiParam {size} size 分页大小
+     * @apiParam {title} title 标题
+     * @apiParamExample {json} Request-Example:
+     * {
+     *     "title":"caojing",
+     *     "size":10,
+     *     "currentPage":1,
+     * }
+     * @apiGroup fsdf
+     * @apiError userNotFound  The <code>id</code>
+     * @apiSampleRequest /article/list
+     */
 
     @GetMapping("/list")
     public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer size,String title) {
