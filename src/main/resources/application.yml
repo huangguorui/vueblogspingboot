@@ -6,6 +6,10 @@ spring:
     url: jdbc:mysql://49.234.91.147:3306/vueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: vueblog
     password: DNHYzcMxjwRhxNBR
+#    url: jdbc:mysql://localhost:8080:3306/vueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#   username: root
+#   password: root
+
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
 server:
