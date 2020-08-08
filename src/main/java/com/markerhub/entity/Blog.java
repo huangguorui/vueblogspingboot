@@ -48,7 +48,11 @@ public class Blog implements Serializable {
     @TableField("indexImg")
     private String indexImg;
 
-    private Integer status;
+
+    @TableField("themeId")
+    private int themeId;
+
+    private int status;
     @NotBlank(message = "技术标签不能为空")
 
     private String tags;
@@ -58,6 +62,58 @@ public class Blog implements Serializable {
     @NotBlank(message = "价格不能为空")
 
     private String price;
+
+    public Long setId() {
+        return  id;
+    }
+
+    public Long setUserId() {
+        return userId;
+    }
+
+    public String setTitle() {
+        return title;
+    }
+
+    public String setDescription() {
+        return description;
+    }
+
+    public String setContent() {
+        return content;
+    }
+
+    public LocalDateTime setCreated() {
+        return created;
+    }
+
+    public String setImg() {
+        return img;
+    }
+
+    public String setIndexImg() {
+        return indexImg;
+    }
+
+    public int setThemeId() {
+        return themeId;
+    }
+
+    public int setStatus() {
+        return status;
+    }
+
+    public String setTags() {
+        return  tags;
+    }
+
+    public String setPages() {
+        return pages;
+    }
+
+    public String setPrice() {
+        return price;
+    }
 
 
 }

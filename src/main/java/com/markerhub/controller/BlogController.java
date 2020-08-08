@@ -24,6 +24,7 @@ import com.markerhub.handleData.roleData;
 import com.markerhub.service.BlogService;
 //import com.markerhub.util.ShiroUtil;
 import com.markerhub.service.TagsService;
+import com.markerhub.service.ThemeService;
 import com.markerhub.shiro.ShiroUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.omg.CORBA.Environment;
@@ -36,6 +37,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.markerhub.handleData.imgData;
+import com.markerhub.handleData.blogData;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,7 +70,8 @@ public class BlogController {
     @Autowired
     TagsService tagsService;
 
-
+    @Autowired
+    ThemeService themeService;
 
     /**
      * @api {post} /article/pic/:title
@@ -241,7 +244,49 @@ public class BlogController {
 
         }
 
+        List<blogData> result = new ArrayList<>();
+        List<Blog> blogList = pageData.getRecords();
+
+        for (Blog blog : blogList) {
+            blogData add = new blogData();
+            add.setContent(blog.getContent());
+            add.setId(blog.getId());
+
+            add.setTitle(blog.getTitle());
+            add.setCreated(blog.getCreated());
+
+            add.setDescription(blog.getDescription());
+
+            add.setImg(blog.getImg());
+//            add.setImgArr(blog.getImg());
+
+            add.setPages(blog.getPages());
+            add.setPrice(blog.getPrice());
+
+            add.setIndexImg(blog.getIndexImg());
+
+            add.setStatusText(blog.getStatus());
+            add.setStatus(blog.getStatus());
+
+            add.setTags(blog.getTags());
+            add.setTagsArr(blog.getTags());
+            List<Theme> themeList = themeService.selectByThemeId(blog.getThemeId());
+            if (themeList.size()==0) {
+                add.setThemeName("默认栏目");
+            }
+            for (Theme theme : themeList) {
+                add.setThemeName(theme.getThemeName());
+
+            }
+            result.add(add);
+        }
+
+
+
+
 // BeanUtils.copyProperties(blog,blogList); 对象复制，待议
+
+        pageData.setRecords(result);
 
         return Result.succ(pageData);
     }
@@ -250,7 +295,41 @@ public class BlogController {
     public Result detail(@PathVariable(name = "id") Long id){
         Blog blog = blogService.getById(id);
         Assert.notNull(blog,"该博客已被删除");
-        return Result.succ(blog);
+
+        //博客文件格式转换
+        blogData add = new blogData();
+        add.setContent(blog.getContent());
+        add.setId(blog.getId());
+
+        add.setTitle(blog.getTitle());
+        add.setCreated(blog.getCreated());
+
+        add.setDescription(blog.getDescription());
+
+        add.setImg(blog.getImg());
+        add.setImgArr(blog.getImg());
+
+        add.setPages(blog.getPages());
+        add.setPrice(blog.getPrice());
+
+        add.setIndexImg(blog.getIndexImg());
+
+        add.setStatusText(blog.getStatus());
+        add.setStatus(blog.getStatus());
+
+        add.setTags(blog.getTags());
+        add.setTagsArr(blog.getTags());
+        List<Theme> themeList = themeService.selectByThemeId(blog.getThemeId());
+        if (themeList.size()==0) {
+            add.setThemeName("默认栏目");
+        }
+        System.out.println(themeList.size());
+        for (Theme theme : themeList) {
+            add.setThemeName(theme.getThemeName());
+
+        }
+
+        return Result.succ(add);
     }
 
     @RequiresAuthentication

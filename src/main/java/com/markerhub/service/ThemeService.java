@@ -1,7 +1,10 @@
 package com.markerhub.service;
 
+import com.markerhub.entity.RolePermission;
 import com.markerhub.entity.Theme;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-08-08
  */
 public interface ThemeService extends IService<Theme> {
+    List<Theme> selectByThemeId(int themeId);
 
 }
