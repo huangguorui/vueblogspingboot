@@ -10,6 +10,7 @@ import com.markerhub.entity.Tags;
 import com.markerhub.entity.Theme;
 import com.markerhub.service.TagsService;
 import com.markerhub.service.ThemeService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class ThemeController {
     }
 
 
-
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result edit(@Validated @RequestBody Theme theme) {
 
@@ -56,7 +57,7 @@ public class ThemeController {
 
     }
 
-
+    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 

@@ -11,6 +11,7 @@ import com.markerhub.entity.Link;
 import com.markerhub.entity.Permission;
 import com.markerhub.service.CustomService;
 import com.markerhub.service.LinkService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,6 @@ import java.util.Map;
 public class LinkController {
     @Autowired
     LinkService linkService  ;
-
     @GetMapping("/list")
     public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size,String blogId , String code) {
 
@@ -58,7 +58,7 @@ public class LinkController {
     }
 
 
-
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result edit(@Validated @RequestBody Link link  ) {
 
@@ -74,7 +74,7 @@ public class LinkController {
 
     }
 
-
+    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 

@@ -87,7 +87,7 @@ public class BlogController {
      * @apiError userNotFound  The <code>id</code>
      * @apiSampleRequest /article/pic
      */
-
+    @RequiresAuthentication
     @RequestMapping("/pic")
     @ResponseBody
     public Result uplodFile(@RequestParam("file") MultipartFile[] file) throws Exception {

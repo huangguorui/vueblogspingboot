@@ -30,6 +30,7 @@ public class RolePermissionController {
     @Autowired
     RolePermissionService permissionService;
 
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 

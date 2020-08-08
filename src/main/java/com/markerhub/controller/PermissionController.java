@@ -42,6 +42,7 @@ public class PermissionController {
     PermissionService permissionService;
     @Autowired
     RolePermissionService rolePermissionService;
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size,String permissionName) {
 
@@ -59,6 +60,8 @@ public class PermissionController {
 
         return Result.succ(pageData);
     }
+
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result edit(@Validated @RequestBody Permission permission) {
 
@@ -95,7 +98,7 @@ public class PermissionController {
     }
 
 
-//    @RequiresAuthentication
+    @RequiresAuthentication
     @PostMapping("/addRoleAndPermission")
     public Result addRoleAndPermission(@Validated @RequestBody Map<String, int[]> request) {
         int[] roleId= request.get("roleId");

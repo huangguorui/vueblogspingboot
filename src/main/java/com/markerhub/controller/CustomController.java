@@ -63,7 +63,7 @@ public class CustomController {
 
     }
 
-
+    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 

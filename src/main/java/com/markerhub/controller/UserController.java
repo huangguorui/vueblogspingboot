@@ -39,7 +39,7 @@ public class UserController {
     UserRoleService userRoleService;
 
 
-
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 
@@ -81,13 +81,13 @@ public class UserController {
         return Result.succ(userService.getById(1l));
 
     }
-
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result save(@Validated @RequestBody User user) {
         return Result.succ(user);
 
     }
-
+    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 

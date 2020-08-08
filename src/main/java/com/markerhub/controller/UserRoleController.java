@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserRoleController {
     @Autowired
     UserRoleService permissionService;
-
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 

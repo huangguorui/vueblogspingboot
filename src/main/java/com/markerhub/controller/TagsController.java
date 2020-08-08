@@ -47,7 +47,7 @@ public class TagsController {
     }
 
 
-
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result edit(@Validated @RequestBody Tags tags) {
 
@@ -65,7 +65,7 @@ public class TagsController {
 
     }
 
-
+    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 

@@ -45,6 +45,7 @@ public class RoleController {
     PermissionService permissionService;
     @Autowired
     UserRoleService userRoleService;
+    @RequiresAuthentication
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size) {
 
@@ -79,7 +80,7 @@ public class RoleController {
         return Result.succ(pageData);
     }
 
-//    @RequiresAuthentication
+    @RequiresAuthentication
     @PostMapping("/save")
     public Result edit(@Validated @RequestBody Role permission) {
 
@@ -127,7 +128,7 @@ public class RoleController {
 
         return Result.fail(401,"权限不足",null);
     }
-//    @RequiresAuthentication
+    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 
