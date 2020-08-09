@@ -13,6 +13,7 @@ import com.markerhub.service.CustomService;
 import com.markerhub.service.LinkService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,18 +33,37 @@ import java.util.Map;
 public class LinkController {
     @Autowired
     LinkService linkService  ;
+
+
+    @GetMapping("/ulist")
+    public Result ulist( String code) {
+        int currentPage=1;
+        int size=1;
+        Page page =  new Page(currentPage, size);
+        IPage pageData=null;
+        System.out.println(code);
+        if(code==null){
+            code="AAA";
+            pageData = linkService.page(page, new QueryWrapper<Link>().orderByDesc("id").eq("code",code));
+        }else{
+            pageData = linkService.page(page, new QueryWrapper<Link>().orderByDesc("id").eq("code",code));
+
+        }
+
+        return Result.succ(pageData);
+
+    }
+
+
     @GetMapping("/list")
-    public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size,String blogId , String code) {
+    public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer size,String blogId , String code) {
 
         Page page =  new Page(currentPage, size);
         IPage pageData=null;
         System.out.println(blogId);
         System.out.println(code);
 
-        if(blogId!=null){
-            //eq精确匹配  like模糊匹配
-            pageData = linkService.page(page, new QueryWrapper<Link>().orderByDesc("id").eq("blogId",blogId));
-        }else{
+      
             if(code!=null){
                 //eq精确匹配  like模糊匹配
                 pageData = linkService.page(page, new QueryWrapper<Link>().orderByDesc("id").eq("code",code));
@@ -52,7 +72,6 @@ public class LinkController {
 
             }
 
-        }
         return Result.succ(pageData);
 
     }

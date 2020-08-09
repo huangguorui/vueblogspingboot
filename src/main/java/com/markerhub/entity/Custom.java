@@ -49,5 +49,5 @@ public class Custom implements Serializable {
     @TableField("porjectType")
     private String porjectType;
 
-
+    private String ip;
 }

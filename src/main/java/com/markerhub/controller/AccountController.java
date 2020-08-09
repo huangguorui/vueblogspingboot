@@ -31,7 +31,7 @@ public class AccountController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping("/login")
+    @PostMapping("/admin")
 public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response){
         User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
         Assert.notNull("用户不存在");
@@ -49,13 +49,14 @@ public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletRespon
                 .put("username",user.getUsername())
                 .put("Avatar",user.getAvatar())
                 .put("email",user.getEmail())
+                .put("token",jwt)
                 .map()
         );
 
     }
 
     @RequiresAuthentication
-    @PostMapping("/logout")
+    @PostMapping("/adminLogout")
     public Result logout(){
         SecurityUtils.getSubject().logout();
         return Result.succ(null);

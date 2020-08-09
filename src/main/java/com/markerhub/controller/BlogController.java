@@ -87,7 +87,7 @@ public class BlogController {
      * @apiError userNotFound  The <code>id</code>
      * @apiSampleRequest /article/pic
      */
-    @RequiresAuthentication
+//    @RequiresAuthentication
     @RequestMapping("/pic")
     @ResponseBody
     public Result uplodFile(@RequestParam("file") MultipartFile[] file) throws Exception {
@@ -234,11 +234,12 @@ public class BlogController {
     public Result blogs(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer size,String title) {
 
         Page page =  new Page(currentPage, size);
+        System.out.println(title);
         IPage pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
 
         if(title!=null){
             //eq精确匹配  like模糊匹配
-            pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("id").like("title","title"));
+            pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("id").like("title",title));
         }else{
             pageData = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("id"));
 
@@ -367,7 +368,7 @@ public class BlogController {
 
         return Result.succ(null);
     }
-
+    @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
 
