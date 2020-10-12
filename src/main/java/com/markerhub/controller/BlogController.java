@@ -87,7 +87,7 @@ public class BlogController {
      * @apiError userNotFound  The <code>id</code>
      * @apiSampleRequest /article/pic
      */
-//    @RequiresAuthentication
+    @RequiresAuthentication
     @RequestMapping("/pic")
     @ResponseBody
     public Result uplodFile(@RequestParam("file") MultipartFile[] file) throws Exception {
@@ -128,10 +128,12 @@ public class BlogController {
             FileOutputStream fo = new FileOutputStream(courseFile+"\\src\\main\\resources\\static\\uploads\\"+originalFilename);
             File f = new File(this.getClass().getResource("/").getPath());
             System.out.println("path1: "+f);
-            FileOutputStream target = new FileOutputStream(f+"\\static\\uploads\\"+originalFilename);
+            FileOutputStream target = new FileOutputStream("/www/wwwroot/i.huanggr.cn/static/uploads/"+originalFilename);
+//            FileOutputStream target = new FileOutputStream(f+"\\static\\uploads\\"+originalFilename);
 
             imgData add = new imgData();
             add.setImgName(originalFilename);
+//            add.setImgUrl(getUrl()+"/uploads/"+originalFilename);
             add.setImgUrl(getUrl()+"/uploads/"+originalFilename);
             add.setImgText("/uploads/"+originalFilename);
             System.out.println("setImgUrl="+add.getImgUrl());
@@ -197,15 +199,19 @@ public class BlogController {
 
     @Value("${server.port}")
     private int serverPort;
-    public String getUrl() {
+    public String getUrl() throws UnknownHostException {
         InetAddress address = null;
         try {
             address = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-//        this.serverPort
-        return "http://"+address.getHostAddress() +":"+this.serverPort;
+        InetAddress address1 = InetAddress.getByName("work.huanggr.cn");//获取的是该网站的ip地址，比如我们所有的请求都通过nginx的，所以这里获取到的其实是nginx服务器的IP地
+        String hostAddress1 = address1.getHostAddress();//124.237.121.122
+        return "http://"+hostAddress1 +":"+this.serverPort;
+
+//        this.serverPort  本地用在这个
+//        return "http://"+address.getHostAddress() +":"+this.serverPort;
     }
 
 

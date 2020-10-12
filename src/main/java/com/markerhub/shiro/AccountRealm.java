@@ -38,11 +38,13 @@ public class AccountRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        System.out.println("授权");
+
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //获取当前登录的对象
         Subject subject = SecurityUtils.getSubject();
         AccountProfile accountProfile = (AccountProfile) subject.getPrincipal();
-        System.out.println(accountProfile);
+        System.out.println(accountProfile.getId());
 //
 //        User user = userService.getById(accountProfile.getId());
 //        System.out.println("user");
@@ -56,9 +58,10 @@ public class AccountRealm extends AuthorizingRealm {
 //        List<RoleResourceModule> roleResourceModules=serviceRRM.getUserResource(currentUser.getId());
        // for(RoleResourceModule item:roleResourceModules){
 //        info.addStringPermission("permission+list");//设置用户权限
-        info.addStringPermission("permission+save");
-        info.addStringPermission("permission+delete");
-        info.addStringPermission("permission+addRoleAndPermission");
+//        info.addStringPermission("permission+save");
+//        info.addStringPermission("permission+delete");
+//        info.addStringPermission("permission+addRoleAndPermission");
+//        info.addStringPermission("user:list");
       //  }
 //        LOGGER.info("用户[{}]获取了授权",currentUser.getUserName());
         System.out.println("-------------------------");
@@ -67,6 +70,7 @@ public class AccountRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        System.out.println("认证");
         JwtToken jwtToken=(JwtToken)token;
         String userId = jwtUtils.getClaimByToken((String) jwtToken.getPrincipal()).getSubject();
 

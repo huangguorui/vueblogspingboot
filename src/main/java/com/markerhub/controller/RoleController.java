@@ -51,7 +51,6 @@ public class RoleController {
 
         Page page = new Page(currentPage, size);
         LambdaQueryWrapper<Role> d = new LambdaQueryWrapper<Role>();
-
         d.orderByAsc(Role::getId);
         IPage pageData = roleService.page(page, d);
 
@@ -123,11 +122,19 @@ public class RoleController {
         return Result.succ(null);
 
     }
-    @PostMapping("/h")
-    public Result h() {
+    @GetMapping("/noLogin")
+    public Result noLogin() {
 
-        return Result.fail(401,"权限不足",null);
+        return Result.fail(401,"请登录",null);
     }
+    @GetMapping("/noAuth")
+    public Result noAuth() {
+
+        return Result.fail(401,"未经授权，无法访问",null);
+    }
+
+
+
     @RequiresAuthentication
     @PostMapping("/delete")
     public Result delete(@Validated @RequestBody Integer[] ids) {
